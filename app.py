@@ -51,8 +51,8 @@ def run_bot():
         telegram_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
         
         logger.info("Bot polling started")
-        # Run polling (this will block until stopped)
-        telegram_app.run_polling()
+        # Run polling WITHOUT signal handlers (fixes the thread error)
+        telegram_app.run_polling(stop_signals=None)
     except Exception as e:
         logger.error(f"Bot crashed: {e}", exc_info=True)
 
